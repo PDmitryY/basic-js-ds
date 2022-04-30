@@ -1,47 +1,162 @@
 const { NotImplementedError } = require('../extensions/index.js');
 
-// const { Node } = require('../extensions/list-tree.js');
+const { Node } = require('../extensions/list-tree.js');
 
 /**
 * Implement simple binary search tree according to task description
 * using Node from extensions
 */
+
+// class Node {
+// 	constructor(data) {
+// 	  this.data = data;
+// 	  this.left = null;
+// 	  this.right = null;
+// 	}
+//   }
+
 class BinarySearchTree {
 
-  root() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
-  }
+	constructor() {
+		this.root = null;
+	}
 
-  add(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
-  }
+	root() {
+		if(!this.root) {
+			return null;
+		}
+		return this.root;
+  	}
 
-  has(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
-  }
+  	add(data) {
+		this.root = addValue(this.root, data);
 
-  find(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
-  }
+		function addValue (node, data) {
+			if (!node) {
+				return new Node(data);
+			}
+	
+			if (node.data === data) {
+				return node;
+			}
+	
+			if (data < node.data) {
+				node.left = addValue(node.left, data);
+			} else {
+				node.right = addValue(node.right, data);
+			}
+	
+			return node;
+		}
+	}
 
-  remove(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
-  }
+  	has(data){
+		function hasElement (node, data) {
+			if (!node) {
+				return false;
+			}
 
-  min() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
-  }
+			if (node.data === data) {
+				return true;
+			}
 
-  max() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
-  }
+			if (data < node.data) {
+				return hasElement(node.left, data);
+			} else {
+				return hasElement(node.right, data);
+			}
+		}
+		
+		return hasElement(this.root, data);
+	};
+
+  	find(data){
+		function findElement (node, data) {
+			if (!node) {
+				return null;
+			}
+
+			if (node.data === data) {
+				return node;
+			}
+
+			if (data < node.data) {
+				return findElement(node.left, data);
+			} else {
+				return findElement(node.right, data);
+			}
+		}
+
+		return findElement(this.root, data)
+	}
+	
+	remove(data) {
+
+		function deleteNode(node, data) {
+			if(!node) {
+				return null;
+			}
+
+			if (data < node.data) {
+				return deleteNode(node.left, data);
+			} else if (node.data < data) {
+				return deleteNode(node.right, data)
+			} else {
+				if (!node.left && !node.right) {
+					return null;
+				}
+				if (!node.left) {
+					node = node.right;
+					return node;
+				}
+				if (!node.right) {
+					node = node.left;
+					return node;
+				}
+
+				let minRightNode = node.right;
+				while(minRightNode) {
+					minRightNode = minRightNode.left;
+				}
+				node.data = minRightNode.data;
+				
+				node.right = deleteNode(node.right, minRightNode.data)
+
+				return node;
+			}
+		}
+
+    	return deleteNode(this.root, data);
+
+  	}
+
+	min() {
+		if(!this.root) {
+			return null;
+		}
+
+		let node = this.root;
+
+		while (node.left) {
+			node = node.left;
+		}
+
+		return node.data;
+	}
+
+	max() {
+		if(!this.root) {
+			return null;
+		}
+
+		let node = this.root;
+
+		while (node.right) {
+			node = node.right;
+		}
+
+		return node.data;
+	}
 }
 
 module.exports = {
