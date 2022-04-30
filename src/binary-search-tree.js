@@ -110,9 +110,11 @@ class BinarySearchTree {
 			}
 
 			if (data < node.data) {
-				return deleteNode(node.left, data);
+				node.left = deleteNode(node.left, data)
+				return node;
 			} else if (node.data < data) {
-				return deleteNode(node.right, data)
+				node.right = deleteNode(node.right, data)
+				return node;
 			} else {
 				if (!node.left && !node.right) {
 					return null;
