@@ -51,6 +51,10 @@ class BinarySearchTree {
 	}
 
   	has(data){
+		if(!this.root) {
+			return null;
+		}
+
 		function hasElement (node, data) {
 			if (!node) {
 				return false;
@@ -71,6 +75,9 @@ class BinarySearchTree {
 	};
 
   	find(data){
+		if(!this.root) {
+			return null;
+		}
 		function findElement (node, data) {
 			if (!node) {
 				return null;
@@ -91,6 +98,11 @@ class BinarySearchTree {
 	}
 	
 	remove(data) {
+		if(!this.root) {
+			return null;
+		}
+
+		return deleteNode(this.root, data);
 
 		function deleteNode(node, data) {
 			if(!node) {
@@ -115,7 +127,7 @@ class BinarySearchTree {
 				}
 
 				let minRightNode = node.right;
-				while(minRightNode) {
+				while(minRightNode.left) {
 					minRightNode = minRightNode.left;
 				}
 				node.data = minRightNode.data;
@@ -125,8 +137,6 @@ class BinarySearchTree {
 				return node;
 			}
 		}
-
-    	return deleteNode(this.root, data);
 
   	}
 
